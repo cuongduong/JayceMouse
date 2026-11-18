@@ -154,6 +154,13 @@ public struct GeneralSettings: Codable, Equatable {
     public var scrollKillSwitch = false
     public var lockPointerDuringDrag = false
     public var language: AppLanguage = .system
+    /// Open the settings window when JayceMouse starts. Off: it starts in the menu bar only.
+    public var showWindowAtLaunch = false
+    /// Move the pointer onto a dialog's default button (OK, Save, Allow…) when the dialog appears.
+    public var snapToDefaultButton = true
+    /// Rows for connected mice and keyboards (with battery) at the top of the menu bar menu.
+    public var showMiceInMenu = true
+    public var showKeyboardsInMenu = true
 
     public init() {}
 
@@ -168,10 +175,15 @@ public struct GeneralSettings: Codable, Equatable {
         scrollKillSwitch = try c.decodeIfPresent(Bool.self, forKey: .scrollKillSwitch) ?? defaults.scrollKillSwitch
         lockPointerDuringDrag = try c.decodeIfPresent(Bool.self, forKey: .lockPointerDuringDrag) ?? defaults.lockPointerDuringDrag
         language = (try? c.decodeIfPresent(AppLanguage.self, forKey: .language)) ?? defaults.language
+        showWindowAtLaunch = try c.decodeIfPresent(Bool.self, forKey: .showWindowAtLaunch) ?? defaults.showWindowAtLaunch
+        snapToDefaultButton = try c.decodeIfPresent(Bool.self, forKey: .snapToDefaultButton) ?? defaults.snapToDefaultButton
+        showMiceInMenu = try c.decodeIfPresent(Bool.self, forKey: .showMiceInMenu) ?? defaults.showMiceInMenu
+        showKeyboardsInMenu = try c.decodeIfPresent(Bool.self, forKey: .showKeyboardsInMenu) ?? defaults.showKeyboardsInMenu
     }
 
     enum CodingKeys: String, CodingKey {
         case showMenuBarItem, launchAtLogin, buttonKillSwitch, scrollKillSwitch, lockPointerDuringDrag, language
+        case showWindowAtLaunch, snapToDefaultButton, showMiceInMenu, showKeyboardsInMenu
     }
 }
 

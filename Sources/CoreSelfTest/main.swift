@@ -166,6 +166,9 @@ do {
     let decoded = try? JSONDecoder().decode(AppConfig.self, from: Data(legacy.utf8))
     check(decoded?.general.buttonKillSwitch == true && decoded?.general.showMenuBarItem == false, "config without newer general keys keeps its values")
     check(decoded?.general.language == .system && decoded?.general.lockPointerDuringDrag == false, "missing general keys fall back to defaults")
+    check(decoded?.general.showWindowAtLaunch == false && decoded?.general.snapToDefaultButton == true
+          && decoded?.general.showMiceInMenu == true && decoded?.general.showKeyboardsInMenu == true,
+          "newer general keys default when missing")
     check(decoded?.remaps.isEmpty == true, "config without newer general keys keeps its remaps")
 
     let unknown = #"{"general":{"language":"klingon","buttonKillSwitch":true}}"#

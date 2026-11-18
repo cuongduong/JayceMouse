@@ -170,7 +170,7 @@ struct GeneralView: View {
 
             Card {
                 VStack(spacing: 10) {
-                    SettingToggleRow(symbol: "power", title: tr("Launch at login", "Mở khi đăng nhập"), detail: tr("Start JayceMouse automatically when you sign in.", "Tự động mở JayceMouse khi bạn đăng nhập."), isOn: $model.config.general.launchAtLogin, tint: Theme.mint)
+                    SettingToggleRow(symbol: "power", title: tr("Launch at login", "Khởi động cùng macOS"), isOn: $model.config.general.launchAtLogin, tint: Theme.mint)
                     if model.config.general.launchAtLogin && model.loginItemStatus != .enabled {
                         HStack(spacing: 10) {
                             Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(Color.orange)
@@ -185,7 +185,13 @@ struct GeneralView: View {
                         }
                     }
                     Divider()
+                    SettingToggleRow(symbol: "macwindow", title: tr("Show window at launch", "Hiện cửa sổ khi khởi động"), isOn: $model.config.general.showWindowAtLaunch, tint: Theme.mint)
+                    Divider()
                     SettingToggleRow(symbol: "menubar.rectangle", title: tr("Show menu bar icon", "Hiện biểu tượng trên thanh menu"), detail: tr("Quick access to pause features without opening the window.", "Truy cập nhanh để tạm dừng tính năng mà không cần mở cửa sổ."), isOn: $model.config.general.showMenuBarItem, tint: Theme.cyan)
+                    Divider()
+                    SettingToggleRow(symbol: "computermouse", title: tr("Show mice in the menu", "Hiện chuột trong menu"), detail: tr("Connected mice and their battery, at the top of the menu bar menu. Some mice don't report their battery to macOS.", "Chuột đang kết nối và mức pin, ở đầu menu trên thanh menu. Một số chuột không báo mức pin cho macOS."), isOn: $model.config.general.showMiceInMenu, tint: Theme.cyan)
+                    Divider()
+                    SettingToggleRow(symbol: "keyboard", title: tr("Show keyboards in the menu", "Hiện bàn phím trong menu"), detail: tr("Connected keyboards and their battery, below the mice.", "Bàn phím đang kết nối và mức pin, bên dưới danh sách chuột."), isOn: $model.config.general.showKeyboardsInMenu, tint: Theme.cyan)
                 }
             }
 
@@ -196,6 +202,14 @@ struct GeneralView: View {
                     SettingToggleRow(symbol: "wind", title: tr("Disable scroll enhancements", "Tắt tăng cường cuộn"), detail: tr("Temporarily hand scrolling back to macOS.", "Tạm thời trả việc cuộn lại cho macOS."), isOn: $model.config.general.scrollKillSwitch, tint: Theme.pink)
                     Divider()
                     SettingToggleRow(symbol: "lock", title: tr("Lock pointer during drag", "Khóa con trỏ khi kéo"), detail: tr("Freeze the cursor while a Click & Drag gesture is active.", "Giữ yên con trỏ khi đang thực hiện cử chỉ Nhấn & Kéo."), isOn: $model.config.general.lockPointerDuringDrag, tint: Theme.violet)
+                    Divider()
+                    SettingToggleRow(symbol: "cursorarrow.rays", title: tr("Snap pointer to OK button", "Đưa con trỏ tới nút OK"), detail: tr("When a dialog asks you to confirm, move the pointer onto its OK (default) button.", "Khi có hộp thoại cần xác nhận, đưa con trỏ tới nút OK (nút mặc định) của hộp thoại."), isOn: $model.config.general.snapToDefaultButton, tint: Theme.mint)
+                    HStack {
+                        Spacer()
+                        Button(tr("Test with a dialog", "Thử với hộp thoại")) { model.testDialogSnap() }
+                            .buttonStyle(GradientButtonStyle(prominent: false))
+                            .disabled(!model.config.general.snapToDefaultButton)
+                    }
                 }
             }
 
