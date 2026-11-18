@@ -45,7 +45,7 @@ Releases from v1.0.1 on carry this attestation. The `.sha256` files next to each
 
 ## Features
 - **Smooth scrolling**: off / low / regular / high, speed low/medium/high with tick acceleration, natural direction, trackpad-style scroll phases.
-- **Scroll modifiers**: ⇧ horizontal, ⌃ quick, ⌥ precise, ⌘ zoom.
+- **Scroll modifiers**: ⇧ horizontal, ⌃ quick, ⌥ precise, ⌘ zoom (sent as a trackpad pinch, or as ⌘= / ⌘− if you prefer).
 - **Button remaps**: click, double click, triple click, hold, click & drag, click & scroll; optional keyboard modifiers or a held second button.
 - **Actions**: Mission Control, App Exposé, Launchpad, Show Desktop, Spotlight, Siri, Notification Center, Do Not Disturb, Look Up, Smart Zoom, Spaces left/right, Back/Forward, media/volume/brightness keys, custom keyboard shortcut, middle click.
 - **Gestures**: Desktop & Launchpad scroll, Scroll & Navigate (two-finger swipe), Spaces & Mission Control (three-finger swipe), scroll to switch Spaces / zoom.

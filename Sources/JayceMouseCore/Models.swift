@@ -120,6 +120,14 @@ public enum ScrollSpeed: String, Codable, CaseIterable, Hashable {
     case low, medium, high
 }
 
+/// How scroll-to-zoom is sent to apps.
+public enum ZoomStyle: String, Codable, CaseIterable {
+    /// A trackpad pinch: zooms in nearly every app, including Excel and WPS.
+    case pinch
+    /// ⌘= / ⌘−: page zoom in browsers, but other commands in some apps (⌘− deletes cells in Excel).
+    case keyboard
+}
+
 public struct ScrollSettings: Codable, Equatable {
     public var enabled = true
     public var smoothness: ScrollSmoothness = .high
@@ -131,8 +139,31 @@ public struct ScrollSettings: Codable, Equatable {
     public var quickModifier: ModifierMask = .control
     public var preciseModifier: ModifierMask = .option
     public var zoomModifier: ModifierMask = .command
+    public var zoomStyle: ZoomStyle = .pinch
 
     public init() {}
+
+    // Missing or unknown keys fall back to defaults, so older config files keep their scroll settings.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = ScrollSettings()
+        enabled = (try? c.decodeIfPresent(Bool.self, forKey: .enabled)) ?? d.enabled
+        smoothness = (try? c.decodeIfPresent(ScrollSmoothness.self, forKey: .smoothness)) ?? d.smoothness
+        speed = (try? c.decodeIfPresent(ScrollSpeed.self, forKey: .speed)) ?? d.speed
+        reverseDirection = (try? c.decodeIfPresent(Bool.self, forKey: .reverseDirection)) ?? d.reverseDirection
+        trackpadSimulation = (try? c.decodeIfPresent(Bool.self, forKey: .trackpadSimulation)) ?? d.trackpadSimulation
+        preciseByDefault = (try? c.decodeIfPresent(Bool.self, forKey: .preciseByDefault)) ?? d.preciseByDefault
+        horizontalModifier = (try? c.decodeIfPresent(ModifierMask.self, forKey: .horizontalModifier)) ?? d.horizontalModifier
+        quickModifier = (try? c.decodeIfPresent(ModifierMask.self, forKey: .quickModifier)) ?? d.quickModifier
+        preciseModifier = (try? c.decodeIfPresent(ModifierMask.self, forKey: .preciseModifier)) ?? d.preciseModifier
+        zoomModifier = (try? c.decodeIfPresent(ModifierMask.self, forKey: .zoomModifier)) ?? d.zoomModifier
+        zoomStyle = (try? c.decodeIfPresent(ZoomStyle.self, forKey: .zoomStyle)) ?? d.zoomStyle
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case enabled, smoothness, speed, reverseDirection, trackpadSimulation, preciseByDefault
+        case horizontalModifier, quickModifier, preciseModifier, zoomModifier, zoomStyle
+    }
 }
 
 public struct PointerSettings: Codable, Equatable {

@@ -55,6 +55,24 @@ struct ScrollSettingsView: View {
                         shortcutChip("⌥ Option", ScrollActivity.precise.title)
                         shortcutChip("⌘ Command", ScrollActivity.zoom.title)
                     }
+                    Divider()
+                    HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(tr("Zoom with", "Cách thu phóng")).font(.system(size: 13, weight: .semibold))
+                            Text(model.config.scroll.zoomStyle == .pinch
+                                 ? tr("Like pinching on a trackpad — works in most apps, including Excel and WPS.",
+                                      "Như chụm hai ngón trên trackpad — dùng được trong hầu hết ứng dụng, kể cả Excel và WPS.")
+                                 : tr("Presses ⌘= / ⌘−. Fine in browsers, but some apps use these keys for other commands.",
+                                      "Nhấn ⌘= / ⌘−. Dùng tốt trong trình duyệt, nhưng một số ứng dụng dùng các phím này cho lệnh khác."))
+                                .font(.system(size: 12)).foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer(minLength: 12)
+                        SegmentedPills(options: ZoomStyle.allCases, selection: $model.config.scroll.zoomStyle) {
+                            $0 == .pinch ? tr("Pinch", "Chụm ngón") : "⌘ + / ⌘ −"
+                        }
+                        .frame(width: 240)
+                    }
                 }
             }
 
